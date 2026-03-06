@@ -3,7 +3,7 @@
 > Production-grade SDK for securely uploading and retrieving encrypted wallet seeds and entropy to/from a client backend.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: Apache%202.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
 ---
 
@@ -333,4 +333,4 @@ npm run clean
 
 ## License
 
-MIT
+Apache-2.0
