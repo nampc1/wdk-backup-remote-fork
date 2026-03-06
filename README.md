@@ -193,14 +193,16 @@ Your backend must implement the following endpoints:
 The HTTP implementation is fully abstracted behind `IHttpClient`. Provide your own implementation for custom adapters (e.g., `fetch`, React Native Networking) or for test mocking:
 
 ```ts
-import type {
-  IHttpClient,
-  HttpRequestConfig,
-  HttpResponse,
-} from "@tetherto/wdk-backup-remote";
+import type { IHttpClient } from "@tetherto/wdk-backup-remote";
 
 class MyFetchHttpClient implements IHttpClient {
-  async request<T>(config: HttpRequestConfig): Promise<HttpResponse<T>> {
+  async request<T>(config: {
+    url: string;
+    method: "GET" | "POST" | "DELETE";
+    headers?: Record<string, string>;
+    body?: Record<string, unknown>;
+    timeoutMs: number;
+  }): Promise<{ status: number; data: T }> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), config.timeoutMs);
 

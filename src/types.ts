@@ -40,7 +40,8 @@ export interface BackendBackupConfig {
   /** Request timeout in milliseconds (default: 10_000). */
   timeoutMs?: number;
   /**
-   * Optional retry strategy. Set to `null` / omit to disable retries.
+   * Optional retry strategy. Omit to use the default retry config; set to
+   * `null` to disable retries entirely.
    * Network errors and 5xx responses are retried; 4xx errors are NOT.
    */
   retry?: Partial<RetryConfig> | null;
@@ -58,7 +59,7 @@ export interface BackendBackupConfig {
 export interface UploadSeedParams {
   /** The encrypted seed — never modify or log this value. */
   seed: string;
-  /** Auth token used for backend authentication (sent as x-authtoken). */
+  /** Auth token used for backend authentication (sent as Authorization: Bearer <token>). */
   authToken: string;
   /** Optional metadata to associate with the backup. */
   metadata?: Record<string, unknown>;
@@ -67,7 +68,7 @@ export interface UploadSeedParams {
 export interface UploadEntropyParams {
   /** The encrypted entropy — never modify or log this value. */
   entropy: string;
-  /** Auth token used for backend authentication (sent as x-authtoken). */
+  /** Auth token used for backend authentication (sent as Authorization: Bearer <token>). */
   authToken: string;
   /** Optional metadata to associate with the backup. */
   metadata?: Record<string, unknown>;
