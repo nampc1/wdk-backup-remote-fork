@@ -1,0 +1,56 @@
+name: publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  pre-publish-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22.19.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.19.0"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Lint, Type check, Test, and Build
+        run: |
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
+
+  publish:
+    needs: pre-publish-checks
+    runs-on: ubuntu-latest
+    environment: npm-publish
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22.19.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.19.0"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
