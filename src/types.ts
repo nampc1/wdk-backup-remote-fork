@@ -18,10 +18,6 @@
  * implementation-internal types from this file.
  */
 
-// ---------------------------------------------------------------------------
-// Configuration
-// ---------------------------------------------------------------------------
-
 export interface RetryConfig {
   /** Maximum number of retry attempts (default: 3). */
   count: number;
@@ -52,10 +48,6 @@ export interface BackendBackupConfig {
   debug?: DebugInterceptor | null;
 }
 
-// ---------------------------------------------------------------------------
-// Method parameter shapes
-// ---------------------------------------------------------------------------
-
 export interface UploadSeedParams {
   /** The encrypted seed — never modify or log this value. */
   seed: string;
@@ -74,10 +66,6 @@ export interface UploadEntropyParams {
   metadata?: Record<string, unknown>;
 }
 
-// ---------------------------------------------------------------------------
-// Response item shapes (GET seed / GET entropy)
-// ---------------------------------------------------------------------------
-
 export interface SeedItem {
   seed: string;
   metadata?: Record<string, unknown>;
@@ -87,10 +75,6 @@ export interface EntropyItem {
   entropy: string;
   metadata?: Record<string, unknown>;
 }
-
-// ---------------------------------------------------------------------------
-// Debug interceptor
-// ---------------------------------------------------------------------------
 
 export interface RequestDebugInfo {
   url: string;
@@ -126,10 +110,6 @@ export interface DebugInterceptor {
   onResponse?: (info: ResponseDebugInfo) => void;
   onError?: (info: ErrorDebugInfo) => void;
 }
-
-// ---------------------------------------------------------------------------
-// Internal HTTP types (exported for IHttpClient implementors)
-// ---------------------------------------------------------------------------
 
 export interface HttpRequestConfig {
   url: string;

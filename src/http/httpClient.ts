@@ -48,19 +48,11 @@ export interface IHttpClient {
   request<T = unknown>(config: HttpRequestConfig): Promise<HttpResponse<T>>;
 }
 
-// ---------------------------------------------------------------------------
-// Default retry configuration
-// ---------------------------------------------------------------------------
-
 const DEFAULT_RETRY: RetryConfig = {
   count: 3,
   delayMs: 300,
   backoffFactor: 2,
 };
-
-// ---------------------------------------------------------------------------
-// AxiosHttpClient
-// ---------------------------------------------------------------------------
 
 export class AxiosHttpClient implements IHttpClient {
   private readonly instance: AxiosInstance;
@@ -149,10 +141,6 @@ export class AxiosHttpClient implements IHttpClient {
       throw classified;
     }
   }
-
-  // -------------------------------------------------------------------------
-  // Private helpers
-  // -------------------------------------------------------------------------
 
   private handleResponse<T>(status: number, data: T): HttpResponse<T> {
     if (status >= 200 && status < 300) {

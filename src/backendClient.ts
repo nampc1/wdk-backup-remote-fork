@@ -35,14 +35,6 @@ import type {
   EntropyItem,
 } from './types.js';
 
-// ---------------------------------------------------------------------------
-// Response schemas (Zod) — runtime shape validation
-//
-// The backend returns arrays: { seeds: [{ seed, metadata }, ...] }.
-// The SDK validates the shape and extracts the most recent entry so
-// callers get a plain string back.
-// ---------------------------------------------------------------------------
-
 const SeedItemSchema = z.object({
   seed: z.string().min(1),
   metadata: z.record(z.unknown()).optional(),
@@ -61,10 +53,6 @@ const EntropyResponseSchema = z.object({
   entropies: z.array(EntropyItemSchema),
 });
 
-// ---------------------------------------------------------------------------
-// Default configuration values
-// ---------------------------------------------------------------------------
-
 const DEFAULT_TIMEOUT_MS = 10_000;
 
 const DEFAULT_RETRY: Partial<RetryConfig> = {
@@ -72,10 +60,6 @@ const DEFAULT_RETRY: Partial<RetryConfig> = {
   delayMs: 300,
   backoffFactor: 2,
 };
-
-// ---------------------------------------------------------------------------
-// BackendBackupClient
-// ---------------------------------------------------------------------------
 
 export class BackendBackupClient {
   private readonly baseUrl: string;
@@ -91,7 +75,6 @@ export class BackendBackupClient {
     if (!config.baseUrl) {
       throw new Error('BackendBackupConfig.baseUrl is required');
     }
-    // Normalise: strip trailing slash so URL construction is predictable
     this.baseUrl = config.baseUrl.replace(/\/+$/, '');
     this.timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
@@ -102,10 +85,6 @@ export class BackendBackupClient {
         config.debug,
       );
   }
-
-  // -------------------------------------------------------------------------
-  // Upload
-  // -------------------------------------------------------------------------
 
   /**
    * Upload the encrypted seed to the backend.
@@ -138,10 +117,6 @@ export class BackendBackupClient {
       timeoutMs: this.timeoutMs,
     });
   }
-
-  // -------------------------------------------------------------------------
-  // Retrieve
-  // -------------------------------------------------------------------------
 
   /**
    * Retrieve all encrypted seeds from the backend.
@@ -193,10 +168,6 @@ export class BackendBackupClient {
     );
   }
 
-  // -------------------------------------------------------------------------
-  // Delete
-  // -------------------------------------------------------------------------
-
   /**
    * Delete both the seed and entropy backups from the backend in parallel.
    * Both DELETE requests are fired concurrently; errors from either are
@@ -218,10 +189,6 @@ export class BackendBackupClient {
       }),
     ]);
   }
-
-  // -------------------------------------------------------------------------
-  // Private helpers
-  // -------------------------------------------------------------------------
 
   private url(path: string): string {
     return `${this.baseUrl}${path}`;
