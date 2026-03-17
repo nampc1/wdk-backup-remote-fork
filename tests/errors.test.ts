@@ -2,7 +2,7 @@ import {
   BackendAuthError,
   BackendNetworkError,
   BackendValidationError,
-} from '../errors/index';
+} from '../src/errors/index';
 
 describe('Error classes', () => {
   // -------------------------------------------------------------------------

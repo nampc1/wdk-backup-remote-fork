@@ -8,16 +8,15 @@
  * against the real backend and print full request/response details.
  */
 
-import { BackendBackupClient } from "./src/backendClient";
-import type { DebugInterceptor } from "./src/types";
+import { BackendBackupClient } from "../../src/backendClient";
+import type { DebugInterceptor } from "../../src/types";
 
 // ===========================================================================
 // ✏️  FILL THESE IN
 // ===========================================================================
 
 const BASE_URL = "https://tether-wallet-dev.tether.su/api/v1"; // your backend base URL
-const AUTH_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0d19iMWI2MDg0MDk4MTdiZTcyNmRmZjA2YzdhZWYwN2EwMDQ3N2ZmMjRlODMzNzVlNjIwYTJhM2JhOTQyMjQzMTZhIiwiZW1haWwiOiJyYXZpLmxvZGhpQHRldGhlci5pbyIsImp0aSI6IjA2ZDYxYjI2LWQwZDAtNGFlZC05MjFjLWE4MWM5OWViMDY2YSIsInJlZnJlc2hKdGkiOiJmYzU3Y2FiZC1mZDY4LTQ5NGMtODY0ZS1hMjdmOTNlMjU0OTMiLCJpYXQiOjE3NzIwNTQyNTEsImV4cCI6MTc3MjA2MTQ1MX0.OcNuixroCdWtCuMrwy9x6un5OOpy4dgDHOyYaqRHSFc"; // paste your Bearer token here
+const AUTH_TOKEN = ""; // paste your Bearer token here
 const TEST_SEED = "test-encrypted-seed-" + Date.now();
 const TEST_ENTROPY = "test-encrypted-entropy-" + Date.now();
 const TEST_METADATA = { source: "manual-test", ts: Date.now() };
@@ -86,7 +85,7 @@ async function main() {
   console.log("Base URL   :", BASE_URL);
   console.log(
     "Auth token :",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0d19iMWI2MDg0MDk4MTdiZTcyNmRmZjA2YzdhZWYwN2EwMDQ3N2ZmMjRlODMzNzVlNjIwYTJhM2JhOTQyMjQzMTZhIiwiZW1haWwiOiJyYXZpLmxvZGhpQHRldGhlci5pbyIsImp0aSI6IjA2ZDYxYjI2LWQwZDAtNGFlZC05MjFjLWE4MWM5OWViMDY2YSIsInJlZnJlc2hKdGkiOiJmYzU3Y2FiZC1mZDY4LTQ5NGMtODY0ZS1hMjdmOTNlMjU0OTMiLCJpYXQiOjE3NzIwNTQyNTEsImV4cCI6MTc3MjA2MTQ1MX0.OcNuixroCdWtCuMrwy9x6un5OOpy4dgDHOyYaqRHSFc",
+    AUTH_TOKEN,
   );
   console.log("Test seed  :", TEST_SEED);
   console.log("Test entropy:", TEST_ENTROPY);
@@ -102,8 +101,6 @@ async function main() {
     const entropy = await client.getEntropy(AUTH_TOKEN);
     console.log("  Result:", entropy === null ? "<null — no backup>" : entropy);
   });
-
-  return;
 
   // ── 3. Upload seed ───────────────────────────────────────────────────
   await step("uploadSeed", async () => {
@@ -127,7 +124,9 @@ async function main() {
   await step("getSeed (after upload)", async () => {
     const seed = await client.getSeed(AUTH_TOKEN);
     console.log("  Result:", seed);
-    if (seed !== TEST_SEED) {
+    const foundSeed = seed.find((item) => item.seed === TEST_SEED)
+    
+    if (!foundSeed) {
       console.warn(`  ⚠ Expected "${TEST_SEED}" but got "${seed}"`);
     }
   });
@@ -136,7 +135,9 @@ async function main() {
   await step("getEntropy (after upload)", async () => {
     const entropy = await client.getEntropy(AUTH_TOKEN);
     console.log("  Result:", entropy);
-    if (entropy !== TEST_ENTROPY) {
+    const foundEntropy = entropy.find((item) => item.entropy === TEST_ENTROPY)
+
+    if (!foundEntropy) {
       console.warn(`  ⚠ Expected "${TEST_ENTROPY}" but got "${entropy}"`);
     }
   });

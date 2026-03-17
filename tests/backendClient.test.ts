@@ -13,14 +13,14 @@
  *   - URL normalisation: trailing slash is stripped
  */
 
-import { BackendBackupClient } from '../backendClient';
+import { BackendBackupClient } from '../src/backendClient';
 import {
   BackendAuthError,
   BackendNetworkError,
   BackendValidationError,
-} from '../errors/index';
-import type { IHttpClient } from '../http/httpClient';
-import type { HttpRequestConfig, HttpResponse } from '../types';
+} from '../src/errors/index';
+import type { IHttpClient } from '../src/http/httpClient';
+import type { HttpRequestConfig, HttpResponse } from '../src/types';
 
 // ---------------------------------------------------------------------------
 // Mock IHttpClient factory

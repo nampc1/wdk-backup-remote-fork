@@ -61,15 +61,13 @@
     },
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/src"
+      "<rootDir>/tests"
     ],
     "moduleNameMapper": {
       "^(.*)\\.js$": "$1"
     },
     "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/**/__tests__/**",
-      "!src/index.ts"
+      "tests/**/*.ts"
     ],
     "coverageThreshold": {
       "global": {

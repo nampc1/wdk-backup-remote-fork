@@ -14,8 +14,8 @@ import {
   BackendAuthError,
   BackendNetworkError,
   BackendValidationError,
-} from '../errors/index';
-import { AxiosHttpClient } from '../http/httpClient';
+} from '../src/errors/index';
+import { AxiosHttpClient } from '../src/http/httpClient';
 
 // ---------------------------------------------------------------------------
 // Helpers

@@ -20,6 +20,6 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "src/**/__tests__"]
+  "include": ["src", "tests/httpClient.test.ts", "tests/backendClient.test.ts", "tests/errors.test.ts"],
+  "exclude": ["node_modules", "dist", "src/**/__tests__", "tests"]
 }
